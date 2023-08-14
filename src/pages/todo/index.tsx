@@ -1,5 +1,7 @@
+import TodoContainer from 'components/views/TodoContainer';
+
 const Todo = () => {
-  return <>this id todo list</>;
+  return <TodoContainer />;
 };
 
 export default Todo;
