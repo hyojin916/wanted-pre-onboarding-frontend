@@ -6,17 +6,25 @@ interface IProps {
   testid: string;
   name: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+  [key: string]: unknown;
 }
 
-const Textinput = ({ testid, name, onChange }: IProps) => {
+const Textinput = ({
+  testid,
+  name,
+  onChange,
+  type = 'text',
+  ...rest
+}: IProps) => {
   return (
-    <S.InputWrapper>
+    <S.InputWrapper {...rest}>
       <Flex>
-        {/* testid, id, name, validation */}
-        <label>{name}</label>
+        <S.Label>{name}</S.Label>
         <S.Input
           data-testid={testid}
-          type='text'
+          type={type}
+          name={name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
         />
       </Flex>

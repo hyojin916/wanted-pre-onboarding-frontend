@@ -1,4 +1,4 @@
-import SigninContainer from 'components/views/authPages/SigninContainer';
+import SigninContainer from 'components/views/SigninContainer';
 
 const Signin = () => {
   return <SigninContainer />;

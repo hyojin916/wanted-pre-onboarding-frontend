@@ -1,5 +1,7 @@
+import SignupContainer from 'components/views/SignupContainer';
+
 const Signup = () => {
-  return <>this is Signup page</>;
+  return <SignupContainer />;
 };
 
 export default Signup;
