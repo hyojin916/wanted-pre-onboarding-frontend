@@ -1,6 +1,5 @@
 import API from 'services/api';
 import axios from 'axios';
-import accessToken from './getTocken';
 
 const instance = axios.create({
   baseURL: API,
@@ -9,6 +8,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
+    const accessToken = localStorage.getItem('access_token');
     config.headers['Content-Type'] = 'application/json';
     config.headers['Authorization'] = `Bearer ${accessToken}`;
 
@@ -29,6 +29,7 @@ instance.interceptors.response.use(
     return response;
   },
   async (error) => {
+    const accessToken = localStorage.getItem('access_token');
     if (error.response?.status === 401) {
       error.config.headers = {
         'Content-Type': 'application/json',
