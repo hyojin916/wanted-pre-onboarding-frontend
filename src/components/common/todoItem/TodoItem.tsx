@@ -9,7 +9,7 @@ interface Iprops {
 const TodoItem = ({ todo, editTodo, deleteTodo }: Iprops) => {
   const [editMode, setEditMode] = useState(false);
   const [editedTodo, setEditedTodo] = useState<string>(todo.todo);
-  const [isCompleted, setIscomplete] = useState<boolean>(todo.isCompleted);
+
   return (
     <li>
       {!editMode ? (
@@ -17,9 +17,9 @@ const TodoItem = ({ todo, editTodo, deleteTodo }: Iprops) => {
           <label>
             <input
               type='checkbox'
-              checked={todo.isCompleted === true ? true : false}
+              defaultChecked={todo.isCompleted}
               onChange={(e) => {
-                editTodo(todo.id, editedTodo, isCompleted);
+                editTodo(todo.id, editedTodo, e.target.checked);
               }}
             />
             <span>{todo.todo}</span>
@@ -42,8 +42,10 @@ const TodoItem = ({ todo, editTodo, deleteTodo }: Iprops) => {
           <label>
             <input
               type='checkbox'
-              checked={todo.isCompleted ? true : false}
-              onChange={(e) => setIscomplete(e.target.checked)}
+              defaultChecked={todo.isCompleted}
+              onChange={(e) => {
+                editTodo(todo.id, editedTodo, e.target.checked);
+              }}
             />
             <input
               data-testid='modify-input'
@@ -53,7 +55,7 @@ const TodoItem = ({ todo, editTodo, deleteTodo }: Iprops) => {
           </label>
           <button
             onClick={(e) => {
-              editTodo(todo.id, editedTodo, isCompleted);
+              editTodo(todo.id, editedTodo, todo.isCompleted);
               setEditMode(false);
             }}
             data-testid='submit-button'
