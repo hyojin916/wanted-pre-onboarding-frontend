@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import instance from 'utils/interceptors';
 
 import TodoItem from 'components/common/todoItem/TodoItem';
@@ -7,6 +8,8 @@ import { ITodo } from 'types';
 import * as S from './TodoContainer.style';
 
 const TodoContainer = () => {
+  const navigate = useNavigate();
+
   const [todoList, setTodoList] = useState<ITodo[]>([]);
   const [todo, setTodo] = useState<string>('');
 
@@ -67,6 +70,14 @@ const TodoContainer = () => {
           <TodoItem todo={todo} editTodo={editTodo} deleteTodo={deleteTodo} />
         </React.Fragment>
       ))}
+      <button
+        onClick={() => {
+          localStorage.clear();
+          navigate('/signin');
+        }}
+      >
+        로그아웃
+      </button>
     </S.Warpper>
   );
 };
