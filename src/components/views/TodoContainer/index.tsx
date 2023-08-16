@@ -10,23 +10,14 @@ const TodoContainer = () => {
   const [todo, setTodo] = useState<string>();
 
   const getTodos = async () => {
-    try {
-      const response = await instance.get(`/todos`);
-      setTodoList(response.data);
-    } catch (err) {
-      throw err;
-    }
+    const response = await instance.get(`/todos`);
+    setTodoList(response.data);
   };
 
   const addTodo = async () => {
-    try {
-      const response = await instance.post(`/todos`, { todo });
-      console.log('add', response.data);
-      getTodos();
-      setTodo('');
-    } catch (err) {
-      throw err;
-    }
+    await instance.post(`/todos`, { todo });
+    getTodos();
+    setTodo('');
   };
 
   const editTodo = async (
@@ -39,22 +30,14 @@ const TodoContainer = () => {
       isCompleted,
     };
 
-    console.log(isCompleted);
-    try {
-      await instance.put(`/todos/${id}`, updated);
-      getTodos();
-    } catch (err) {
-      throw err;
-    }
+    await instance.put(`/todos/${id}`, updated);
+    getTodos();
   };
 
   const deleteTodo = async (id: number) => {
-    try {
-      await instance.delete(`/todos/${id}`);
-      getTodos();
-    } catch (err) {
-      throw err;
-    }
+    await instance.delete(`/todoss/${id}`);
+    // .then((err) => console.log('여긴 컴포넌트 내 err', err)); -> 이건 console x. try catch하면 찍힘
+    getTodos();
   };
 
   useEffect(() => {
