@@ -1,3 +1,4 @@
+import NotFound from 'components/common/error/404';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivateRoutes from 'utils/PrivateRoute';
 import './App.css';
@@ -17,6 +18,7 @@ function App() {
         </Route>
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />s
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );

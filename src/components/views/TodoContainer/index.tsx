@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import API from 'services/api';
+import instance from 'utils/interceptors';
 
 import TodoItem from 'components/common/todoItem/TodoItem';
 import { ITodo } from 'types';
@@ -10,14 +9,9 @@ const TodoContainer = () => {
   const [todoList, setTodoList] = useState<ITodo[]>([]);
   const [todo, setTodo] = useState<string>();
 
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-  };
-
   const getTodos = async () => {
     try {
-      const response = await axios.get(`${API}/todos`, { headers });
+      const response = await instance.get(`/todos`);
       setTodoList(response.data);
     } catch (err) {
       throw err;
@@ -26,7 +20,7 @@ const TodoContainer = () => {
 
   const addTodo = async () => {
     try {
-      const response = await axios.post(`${API}/todos`, { todo }, { headers });
+      const response = await instance.post(`/todos`, { todo });
       console.log('add', response.data);
       getTodos();
       setTodo('');
@@ -47,9 +41,7 @@ const TodoContainer = () => {
 
     console.log(isCompleted);
     try {
-      await axios.put(`${API}/todos/${id}`, updated, {
-        headers,
-      });
+      await instance.put(`/todos/${id}`, updated);
       getTodos();
     } catch (err) {
       throw err;
@@ -58,7 +50,7 @@ const TodoContainer = () => {
 
   const deleteTodo = async (id: number) => {
     try {
-      await axios.delete(`${API}/todos/${id}`, { headers });
+      await instance.delete(`/todos/${id}`);
       getTodos();
     } catch (err) {
       throw err;
