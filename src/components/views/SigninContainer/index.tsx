@@ -53,7 +53,7 @@ const SigninContainer = () => {
 
   return (
     <S.Wrapper>
-      <h1>로그인 페이지입니다.</h1>
+      <h1>로그인</h1>
       <Textinput testid='email-input' name='email' onChange={handleEmail} />
       <ErrorMsg text={!emailValid ? '올바른 이메일을 입력해주세요.' : ''} />
       <br />

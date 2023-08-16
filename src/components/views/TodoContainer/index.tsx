@@ -3,11 +3,12 @@ import instance from 'utils/interceptors';
 
 import TodoItem from 'components/common/todoItem/TodoItem';
 import { ITodo } from 'types';
+
 import * as S from './TodoContainer.style';
 
 const TodoContainer = () => {
   const [todoList, setTodoList] = useState<ITodo[]>([]);
-  const [todo, setTodo] = useState<string>();
+  const [todo, setTodo] = useState<string>('');
 
   const getTodos = async () => {
     const response = await instance.get(`/todos`);
@@ -15,6 +16,7 @@ const TodoContainer = () => {
   };
 
   const addTodo = async () => {
+    if (todo.trim()?.length < 1) return alert('입력해주세요.');
     await instance.post(`/todos`, { todo });
     getTodos();
     setTodo('');
@@ -25,6 +27,7 @@ const TodoContainer = () => {
     editedTodo: string,
     isCompleted: boolean
   ) => {
+    if (editedTodo.length < 1) return alert('입력해주세요.');
     const updated = {
       todo: editedTodo,
       isCompleted,
@@ -35,27 +38,30 @@ const TodoContainer = () => {
   };
 
   const deleteTodo = async (id: number) => {
-    await instance.delete(`/todoss/${id}`);
+    await instance.delete(`/todos/${id}`);
     // .then((err) => console.log('여긴 컴포넌트 내 err', err)); -> 이건 console x. try catch하면 찍힘
     getTodos();
   };
 
   useEffect(() => {
-    console.log('🤗 render');
     getTodos();
   }, []);
 
   return (
     <S.Warpper>
-      <div>todo</div>
-      <input
+      <h1>todo list</h1>
+      <S.Input
+        minLength={1}
         data-testid='new-todo-input'
-        onChange={(e) => setTodo(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setTodo(e.target.value)
+        }
         value={todo}
+        autoFocus
       />
-      <button onClick={() => addTodo()} data-testid='new-todo-add-button'>
+      <S.Button onClick={() => addTodo()} data-testid='new-todo-add-button'>
         추가
-      </button>
+      </S.Button>
       {todoList.map((todo: ITodo, index: number) => (
         <React.Fragment key={todo.id + index}>
           <TodoItem todo={todo} editTodo={editTodo} deleteTodo={deleteTodo} />

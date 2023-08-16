@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ITodo } from 'types';
+import * as S from './TodoItem.style';
 
 interface Iprops {
   todo: ITodo;
@@ -11,62 +12,77 @@ const TodoItem = ({ todo, editTodo, deleteTodo }: Iprops) => {
   const [editedTodo, setEditedTodo] = useState<string>(todo.todo);
 
   return (
-    <li>
+    <S.TodoWrapper>
       {!editMode ? (
-        <>
-          <label>
-            <input
-              type='checkbox'
-              defaultChecked={todo.isCompleted}
-              onChange={(e) => {
-                editTodo(todo.id, editedTodo, e.target.checked);
-              }}
-            />
-            <span>{todo.todo}</span>
-          </label>
-          <button
-            data-testid='modify-button'
-            onClick={() => setEditMode(!editMode)}
-          >
-            수정
-          </button>
-          <button
-            data-testid='delete-button'
-            onClick={() => deleteTodo(todo.id)}
-          >
-            삭제
-          </button>
-        </>
+        <S.TodoItem>
+          <div>
+            <label>
+              <S.InputCheckBox
+                type='checkbox'
+                defaultChecked={todo.isCompleted}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  editTodo(todo.id, editedTodo, e.target.checked);
+                }}
+              />
+              <span>{todo.todo}</span>
+            </label>
+          </div>
+          <div>
+            <S.Button
+              data-testid='modify-button'
+              onClick={() => setEditMode(!editMode)}
+            >
+              수정
+            </S.Button>
+            <S.Button
+              data-testid='delete-button'
+              onClick={() => deleteTodo(todo.id)}
+            >
+              삭제
+            </S.Button>
+          </div>
+        </S.TodoItem>
       ) : (
-        <>
-          <label>
-            <input
-              type='checkbox'
-              defaultChecked={todo.isCompleted}
-              onChange={(e) => {
-                editTodo(todo.id, editedTodo, e.target.checked);
+        <S.TodoItem>
+          <div>
+            <label>
+              <S.InputCheckBox
+                type='checkbox'
+                defaultChecked={todo.isCompleted}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  editTodo(todo.id, editedTodo, e.target.checked);
+                }}
+              />
+              <S.Input
+                data-testid='modify-input'
+                defaultValue={todo.todo}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setEditedTodo(e.target.value)
+                }
+              />
+            </label>
+          </div>
+          <div>
+            <S.Button
+              onClick={() => {
+                editTodo(todo.id, editedTodo, todo.isCompleted);
+                setEditMode(false);
               }}
-            />
-            <input
-              data-testid='modify-input'
-              defaultValue={todo.todo}
-              onChange={(e) => setEditedTodo(e.target.value)}
-            />
-          </label>
-          <button
-            onClick={(e) => {
-              editTodo(todo.id, editedTodo, todo.isCompleted);
-              setEditMode(false);
-            }}
-            data-testid='submit-button'
-            type='submit'
-          >
-            제출
-          </button>
-          <button data-testid='cancel-button'>취소</button>
-        </>
+              data-testid='submit-button'
+              type='submit'
+            >
+              제출
+            </S.Button>
+            <S.Button
+              onClick={() => setEditMode(false)}
+              data-testid='cancel-button'
+            >
+              취소
+            </S.Button>
+          </div>
+        </S.TodoItem>
       )}
-    </li>
+    </S.TodoWrapper>
   );
 };
 
