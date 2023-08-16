@@ -21,8 +21,6 @@ styled-components<br/>
 
 ## 데모영상
 
-https://youtu.be/rqMG5BOhZ7I
+[![링크](http://img.youtube.com/vi/rqMG5BOhZ7I/0.jpg)](https://youtu.be/rqMG5BOhZ7I)
 
-<a href="https://youtu.be/rqMG5BOhZ7I">
-<img width="1156" alt="image" src="https://github.com/hyojin916/wanted-pre-onboarding-frontend/assets/74811374/d4a1c3e5-b8dd-49f3-b2e6-576aa4bab7e4"></a>
 <span>이미지를 누르면 링크로 이동됩니다.</span>
